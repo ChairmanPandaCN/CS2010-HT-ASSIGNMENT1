@@ -75,14 +75,25 @@
      * @param a: An unsorted array of doubles.
      * @return after the method returns, the array must be in ascending sorted order.
      */
-//    static double[] mergeSortRecursive (double a[]) {
-//    	
-//
-//    	//todo: implement the sort
-//	
-//   }//end mergeSortRecursive
-    	
+    static double[] mergeSortRecursive (double a[]) {
+    	int start =0;
+    	int end =a.length-1;
+    	sort(a, start, end);
+	return a;
+   }//end mergeSortRecursive
     
+    private static void sort(double a[],int start,int end) {
+    	if(start<end) {
+    		int middle =start+(end-start)/2;
+    		sort(a, start, middle);
+    		sort(a, middle+1, end);
+    		merge(a, start, middle, end);
+    	}
+    }
+    private static void merge(double a[],int start,int middle,int end) {
+    	int firstHalf=middle-start+1;
+    	int secondHalf=end-middle;
+    }
     /**
      * Sorts an array of doubles using Selection Sort.
      * This method is static, thus it can be called as SortComparison.sort(a)
