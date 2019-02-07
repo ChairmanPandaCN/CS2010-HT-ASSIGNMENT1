@@ -1,3 +1,5 @@
+import javax.imageio.event.IIOReadWarningListener;
+
 // -------------------------------------------------------------------------
 
 /**
@@ -73,19 +75,7 @@
      * This method is static, thus it can be called as SortComparison.sort(a)
      *
      * @param a: An unsorted array of doubles.
-     * @return after the method returns, the array must be in ascending sorted order.
-     */
-    static double[] mergeSortRecursive (double a[]) {
-    	int start =0;
-    	int end =a.length-1;
-    	sort(a, start, end);
-	return a;
-   }//end mergeSortRecursive
-    
-    private static void sort(double a[],int start,int end) {
-    	if(start<end) {
-    		int middle =start+(end-start)/2;
-    		sort(a, start, middle);
+     * @return after the method returns, the array must be in ascending sorted` middle);
     		sort(a, middle+1, end);
     		merge(a, start, middle, end);
     	}
@@ -93,6 +83,42 @@
     private static void merge(double a[],int start,int middle,int end) {
     	int firstHalf=middle-start+1;
     	int secondHalf=end-middle;
+    	
+    	double[] left = new double[firstHalf];
+    	double[] right = new double[secondHalf];
+    	
+    	for(int i=0;i<firstHalf;i++) {
+    		left[i]=a[start+i];
+    	}
+    	for(int j=0;j<secondHalf;j++) {
+    		right[j]=a[middle+1+j];
+    	}
+    	
+    	int i=0;//index of left subarray
+    	int j=0;//index of right subarray
+    	int k=0;//index of aux array
+    	
+    	while(i<firstHalf&&j<secondHalf) {
+    		if(left[i]<=right[i]) {
+    			a[k]=left[i];
+    			i++;
+    		}else {
+    			a[k]=right[j];
+    			j++;
+    		}
+    		k++;
+    	}
+    	
+    	while(i<firstHalf) {
+    		a[k]=left[i];
+    		i++;
+    		k++;
+    	}
+    	while(j<secondHalf) {
+    		a[k]=right[j];
+    		j++;
+    		k++;
+    	}	
     }
     /**
      * Sorts an array of doubles using Selection Sort.
@@ -116,6 +142,24 @@
     }//end selectionsort
 
     public static void main(String[] args) {
+    	double[] arr = new double[100];
+	    int[] arr2 = new int[100];
+	    int[] arr3 = new int[100];
+	    for(int count=0;count<arr.length;count++) {
+	    	arr[count]=(int)((Math.random()*9+1)*100);
+//	    	arr3[count]=arr[count];
+	    }
+	    System.out.println("The test array:");
+	    for(int i=0;i<arr.length;i++){
+	        System.out.print(arr[i]+" ");
+        }
+	    System.out.print("\n");
+	    
+	    long startTime=System.nanoTime();   //start   
+	    mergeSortRecursive(arr); 
+        long endTime=System.nanoTime(); //end  
+        System.out.println("bubbleSort-running time "+(endTime-startTime)+"ns");
+        
 
         //todo: do experiments as per assignment instructions
     }
