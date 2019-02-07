@@ -1,4 +1,5 @@
 import javax.imageio.event.IIOReadWarningListener;
+import javax.security.auth.login.LoginException;
 
 // -------------------------------------------------------------------------
 
@@ -75,12 +76,24 @@ import javax.imageio.event.IIOReadWarningListener;
      * This method is static, thus it can be called as SortComparison.sort(a)
      *
      * @param a: An unsorted array of doubles.
-     * @return after the method returns, the array must be in ascending sorted` middle);
+     * @return after the method returns, the array must be in ascending sorted order.
+     * 
+     **/
+    static double[] mergeSortRecursive(double a[]) {
+    	int end=a.length-1;
+    	sort(a, 0, end);
+    	return a;
+    }
+    static void sort(double a[],int start,int end) {
+        if(start<end) {    
+        	int middle=start+(end-start)/2;
+    	    sort(a, start, middle);
     		sort(a, middle+1, end);
     		merge(a, start, middle, end);
     	}
     }
-    private static void merge(double a[],int start,int middle,int end) {
+    
+    static void merge(double a[],int start,int middle,int end) {
     	int firstHalf=middle-start+1;
     	int secondHalf=end-middle;
     	
@@ -96,10 +109,10 @@ import javax.imageio.event.IIOReadWarningListener;
     	
     	int i=0;//index of left subarray
     	int j=0;//index of right subarray
-    	int k=0;//index of aux array
+    	int k=start;//index of aux array
     	
     	while(i<firstHalf&&j<secondHalf) {
-    		if(left[i]<=right[i]) {
+    		if(left[i]<=right[j]) {
     			a[k]=left[i];
     			i++;
     		}else {
@@ -143,11 +156,12 @@ import javax.imageio.event.IIOReadWarningListener;
 
     public static void main(String[] args) {
     	double[] arr = new double[100];
-	    int[] arr2 = new int[100];
-	    int[] arr3 = new int[100];
+	    double[] arr2 = new double[100];
+	    double[] arr3 = new double[100];
 	    for(int count=0;count<arr.length;count++) {
 	    	arr[count]=(int)((Math.random()*9+1)*100);
-//	    	arr3[count]=arr[count];
+	    	arr2[count]=arr[count];
+	    	arr3[count]=arr[count];
 	    }
 	    System.out.println("The test array:");
 	    for(int i=0;i<arr.length;i++){
@@ -158,9 +172,23 @@ import javax.imageio.event.IIOReadWarningListener;
 	    long startTime=System.nanoTime();   //start   
 	    mergeSortRecursive(arr); 
         long endTime=System.nanoTime(); //end  
-        System.out.println("bubbleSort-running time "+(endTime-startTime)+"ns");
+        System.out.println("MergeSortRecursion-running time "+(endTime-startTime)+"ns");
         
-
+        System.out.println("The sorted array should be:");
+        for(int i=0;i<arr.length;i++) {
+        	System.out.print(arr[i]+" ");
+        }
+        System.out.println("");
+        
+        startTime=System.nanoTime();//start;
+        insertionSort(arr2);
+        endTime = System.nanoTime();//end;
+        System.out.println("InsertionSort-running time "+(endTime-startTime)+"ns");
+        
+        startTime=System.nanoTime();//start;
+        selectionSort(arr3);
+        endTime =System.nanoTime();//end
+        System.out.println("SelectionSort-running time "+(endTime-startTime)+"ns");
         //todo: do experiments as per assignment instructions
     }
 
