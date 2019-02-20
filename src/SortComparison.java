@@ -12,7 +12,7 @@ import javax.security.auth.login.LoginException;
  */
 
  class SortComparison {
-    public static final int CUTOFF =1;
+    public static final int CUTOFF =15;
     /**
      * Sorts an array of doubles using InsertionSort.
      * This method is static, thus it can be called as SortComparison.sort(a)
@@ -41,11 +41,45 @@ import javax.security.auth.login.LoginException;
      * @return array sorted in ascending order
      *
      */
-//    static double [] quickSort (double a[]){
-//	
-//		 //todo: implement the sort
-//
-//    }//end quicksort
+    static double[] quickSort(double numbers[]) {
+    	recursiveQuick(numbers, 0, numbers.length-1);
+		return numbers;
+	}
+
+    
+    	public static void recursiveQuick(double[] numbers, int lo, int hi) {
+    	if(hi <= lo) {
+    	return;
+    	}
+    	int pivotPos = partition(numbers, lo, hi);
+    	recursiveQuick(numbers, lo, pivotPos-1);
+    	recursiveQuick(numbers, pivotPos+1, hi);
+    	}
+	private static int partition(double[] numbers, int lo, int hi) {
+		int i = lo;
+		int j = hi+1;
+		double pivot = numbers[lo];
+		while(true) {
+		while(numbers[++i]<pivot) {
+		if(i == hi) break;
+		}
+		while(pivot<numbers[--j]) {
+		if(j == lo) break;
+		}
+		if(i >= j) break;
+		double temp = numbers[i];
+		numbers[i] = numbers[j];
+		numbers[j] = temp;
+		}
+		numbers[lo] = numbers[j];
+		numbers[j] = pivot;
+		return j;
+		}
+	private static void swap(double[] a, int i, int j) {
+        double temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+    }
 
     /**
      * Sorts an array of doubles using Merge Sort.
@@ -59,15 +93,22 @@ import javax.security.auth.login.LoginException;
      * This method is static, thus it can be called as SortComparison.sort(a)
      *
      * @param a: An unsorted array of doubles.
-     * @return after the method returns, the array must be in ascending sorted order.
+     *
+import java.util.Timsort @return after the method returns, the array must be in ascending sorted order.
      */
 
-//    static double[] mergeSortIterative (double a[]) {
-//
-//		 //todo: implement the sort
-//	
-//    }//end mergesortIterative
-//    
+    static double[] mergeSortIterative (double a[]) {
+    	 for(int size=1;size<a.length;size=size+size) {
+    		 for(int start=0;start<a.length-size;start+=size+size) {
+    			 int mid=start+size-1;
+    			 int end =Math.min(start+size+size-1, a.length-1);
+    			 merge(a,start,mid,end);
+    		 }
+    	 }
+		 //todo: implement the sort
+    	return a;
+    }//end mergesortIterative
+    
     
     
     /**
@@ -96,7 +137,7 @@ import javax.security.auth.login.LoginException;
     }
     static void ImprovedSplit(double a[],int start,int end) {
         if(start<end) {    
-            if(end<=start+CUTOFF-1) {
+            if(end<=start+CUTOFF) {
             	insertionForMergeSort(a,start,end);
             	return;
             }
@@ -106,49 +147,8 @@ import javax.security.auth.login.LoginException;
     		if(a[middle]<=a[middle+1]) {
     			return;
     		}
-    		ImprovedMerge(a, start, middle, end);
+    		merge(a, start, middle, end);
     	}
-    }
-    
-    static void ImprovedMerge(double a[],int start,int middle,int end) {
-    	int firstHalf=middle-start+1;
-    	int secondHalf=end-middle;
-    	
-    	double[] left = new double[firstHalf];
-    	double[] right = new double[secondHalf];
-    	
-    	for(int i=0;i<firstHalf;i++) {
-    		left[i]=a[start+i];
-    	}
-    	for(int j=0;j<secondHalf;j++) {
-    		right[j]=a[middle+1+j];
-    	}
-    	
-    	int i=0;//index of left subarray
-    	int j=0;//index of right subarray
-    	int k=start;//index of aux array
-    	
-    	while(i<firstHalf&&j<secondHalf) {
-    		if(left[i]<=right[j]) {
-    			a[k]=left[i];
-    			i++;
-    		}else {
-    			a[k]=right[j];
-    			j++;
-    		}
-    		k++;
-    	}
-    	
-    	while(i<firstHalf) {
-    		a[k]=left[i];
-    		i++;
-    		k++;
-    	}
-    	while(j<secondHalf) {
-    		a[k]=right[j];
-    		j++;
-    		k++;
-    	}	
     }
     
     static double[] mergeSortRecursive(double a[]) {
@@ -230,12 +230,12 @@ import javax.security.auth.login.LoginException;
     }//end selectionsort
 
     public static void main(String[] args) {
-    	double[] arr = new double[1000000];
-	    double[] arr2 = new double[1000000];
-	    double[] arr3 = new double[1000000];
-	    double[] arr4 = new double[1000000];
+    	double[] arr = new double[10000];
+	    double[] arr2 = new double[10000];
+	    double[] arr3 = new double[10000];
+	    double[] arr4 = new double[10000];
 	    for(int count=0;count<arr.length;count++) {
-	    	arr[count]=(int)((Math.random()*9+1)*1000000);
+	    	arr[count]=(int)((Math.random()*9+1)*10000);
 	    	arr2[count]=arr[count];
 	    	arr3[count]=arr[count];
 	    	arr4[count]=arr[count];
@@ -263,15 +263,20 @@ import javax.security.auth.login.LoginException;
 //        }
 //        System.out.println("");
         
-//        startTime=System.currentTimeMillis();//start;
-//        insertionSort(arr2);
-//        endTime = System.currentTimeMillis();//end;
-//        System.out.println("InsertionSort-running time "+(endTime-startTime)+"ms");
+        startTime=System.currentTimeMillis();//start;
+        mergeSortIterative(arr3);
+        endTime = System.currentTimeMillis();//end;
+        System.out.println("mergeSortIterative-running time "+(endTime-startTime)+"ms");
+//        System.out.println("The sorted array should be:");
+//        for(int i=0;i<arr3.length;i++) {
+//        	System.out.println(arr3[i]+" ");
+//        }
+//        System.out.println("");
 //        
-//        startTime=System.currentTimeMillis();//start;
-//        selectionSort(arr3);
-//        endTime =System.currentTimeMillis();//end
-//        System.out.println("SelectionSort-running time "+(endTime-startTime)+"ms");
+        startTime=System.currentTimeMillis();//start;
+        quickSort(arr3);
+        endTime =System.currentTimeMillis();//end
+        System.out.println("quickSort-running time "+(endTime-startTime)+"ms");
         
         //todo: do experiments as per assignment instructions
     }
