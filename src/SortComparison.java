@@ -75,11 +75,6 @@ import javax.security.auth.login.LoginException;
 		numbers[j] = pivot;
 		return j;
 		}
-	private static void swap(double[] a, int i, int j) {
-        double temp = a[i];
-        a[i] = a[j];
-        a[j] = temp;
-    }
 
     /**
      * Sorts an array of doubles using Merge Sort.
@@ -119,38 +114,38 @@ import java.util.Timsort @return after the method returns, the array must be in 
      * @return after the method returns, the array must be in ascending sorted order.
      * 
      **/
-    static void insertionForMergeSort(double[]a ,int start,int end) {
-    	for(int i=start+1;i<=end;i++) {
-    		for(int j=i;j>start;j--) {
-    			if(a[j]<a[j-1]) {
-    				double temp =a[j-1];
-    				a[j-1]=a[j];
-    				a[j]=temp;
-    			}
-    		}
-    	}
-    }
-    static double[] ImprovedmergeSortRecursive(double a[]) {
-    	int end=a.length-1;
-    	ImprovedSplit(a, 0, end);
-    	return a;
-    }
-    static void ImprovedSplit(double a[],int start,int end) {
-        if(start<end) {    
-            if(end<=start+CUTOFF) {
-            	insertionForMergeSort(a,start,end);
-            	return;
-            }
-        	int middle=start+(end-start)/2;
-    	    ImprovedSplit(a, start, middle);
-    		ImprovedSplit(a, middle+1, end);
-    		if(a[middle]<=a[middle+1]) {
-    			return;
-    		}
-    		merge(a, start, middle, end);
-    	}
-    }
-    
+//    static void insertionForMergeSort(double[]a ,int start,int end) {
+//    	for(int i=start+1;i<=end;i++) {
+//    		for(int j=i;j>start;j--) {
+//    			if(a[j]<a[j-1]) {
+//    				double temp =a[j-1];
+//    				a[j-1]=a[j];
+//    				a[j]=temp;
+//    			}
+//    		}
+//    	}
+//    }
+//    static double[] ImprovedmergeSortRecursive(double a[]) {
+//    	int end=a.length-1;
+//    	improvedSplit(a, 0, end);
+//    	return a;
+//    }
+//    static void improvedSplit(double a[],int start,int end) {
+//        if(start<end) {    
+//            if(end<=start+CUTOFF) {
+//            	insertionForMergeSort(a,start,end);
+//            	return;
+//            }
+//        	int middle=start+(end-start)/2;
+//    	    improvedSplit(a, start, middle);
+//    		improvedSplit(a, middle+1, end);
+//    		if(a[middle]<=a[middle+1]) {
+//    			return;
+//    		}
+//    		merge(a, start, middle, end);
+//    	}
+//    }
+//    
     static double[] mergeSortRecursive(double a[]) {
     	int end=a.length-1;
     	split(a, 0, end);
@@ -229,57 +224,57 @@ import java.util.Timsort @return after the method returns, the array must be in 
         return a;
     }//end selectionsort
 
-    public static void main(String[] args) {
-    	double[] arr = new double[10000];
-	    double[] arr2 = new double[10000];
-	    double[] arr3 = new double[10000];
-	    double[] arr4 = new double[10000];
-	    for(int count=0;count<arr.length;count++) {
-	    	arr[count]=(int)((Math.random()*9+1)*10000);
-	    	arr2[count]=arr[count];
-	    	arr3[count]=arr[count];
-	    	arr4[count]=arr[count];
-	    }
-//	    System.out.println("The test array:");
-//	    for(int i=0;i<arr.length;i++){
-//	        System.out.print(arr[i]+" ");
-//        }
-//	    System.out.print("\n");
-	    
-        
-	    long startTime=System.currentTimeMillis();   //start   
-	    mergeSortRecursive(arr); 
-        long endTime=System.currentTimeMillis(); //end  
-        System.out.println("MergeSortRecursion-running time "+(endTime-startTime)+"ms");
-        
-        startTime=System.currentTimeMillis();//start;
-        ImprovedmergeSortRecursive(arr2);
-        endTime = System.currentTimeMillis();//end;
-        System.out.println("ImprovedMergeSortRecursive-running time "+(endTime-startTime)+"ms");
-        
-//        System.out.println("The sorted array should be:");
-//        for(int i=0;i<arr.length;i++) {
-//        	System.out.print(arr[i]+" ");
-//        }
-//        System.out.println("");
-        
-        startTime=System.currentTimeMillis();//start;
-        mergeSortIterative(arr3);
-        endTime = System.currentTimeMillis();//end;
-        System.out.println("mergeSortIterative-running time "+(endTime-startTime)+"ms");
-//        System.out.println("The sorted array should be:");
-//        for(int i=0;i<arr3.length;i++) {
-//        	System.out.println(arr3[i]+" ");
-//        }
-//        System.out.println("");
+ //   public static void main(String[] args) {
+//    	double[] arr = new double[10000];
+//	    double[] arr2 = new double[10000];
+//	    double[] arr3 = new double[10000];
+//	    double[] arr4 = new double[10000];
+//	    for(int count=0;count<arr.length;count++) {
+//	    	arr[count]=(int)((Math.random()*9+1)*10000);
+//	    	arr2[count]=arr[count];
+//	    	arr3[count]=arr[count];
+//	    	arr4[count]=arr[count];
+//	    }
+////	    System.out.println("The test array:");
+////	    for(int i=0;i<arr.length;i++){
+////	        System.out.print(arr[i]+" ");
+////        }
+////	    System.out.print("\n");
+//	    
 //        
-        startTime=System.currentTimeMillis();//start;
-        quickSort(arr3);
-        endTime =System.currentTimeMillis();//end
-        System.out.println("quickSort-running time "+(endTime-startTime)+"ms");
-        
-        //todo: do experiments as per assignment instructions
-    }
+//	    long startTime=System.currentTimeMillis();   //start   
+//	    mergeSortRecursive(arr); 
+//        long endTime=System.currentTimeMillis(); //end  
+//        System.out.println("MergeSortRecursion-running time "+(endTime-startTime)+"ms");
+//        
+//        startTime=System.currentTimeMillis();//start;
+//        ImprovedmergeSortRecursive(arr2);
+//        endTime = System.currentTimeMillis();//end;
+//        System.out.println("ImprovedMergeSortRecursive-running time "+(endTime-startTime)+"ms");
+//        
+////        System.out.println("The sorted array should be:");
+////        for(int i=0;i<arr.length;i++) {
+////        	System.out.print(arr[i]+" ");
+////        }
+////        System.out.println("");
+//        
+//        startTime=System.currentTimeMillis();//start;
+//        mergeSortIterative(arr3);
+//        endTime = System.currentTimeMillis();//end;
+//        System.out.println("mergeSortIterative-running time "+(endTime-startTime)+"ms");
+////        System.out.println("The sorted array should be:");
+////        for(int i=0;i<arr3.length;i++) {
+////        	System.out.println(arr3[i]+" ");
+////        }
+////        System.out.println("");
+////        
+//        startTime=System.currentTimeMillis();//start;
+//        quickSort(arr3);
+//        endTime =System.currentTimeMillis();//end
+//        System.out.println("quickSort-running time "+(endTime-startTime)+"ms");
+//        
+//        //todo: do experiments as per assignment instructions
+//    }
 
  }//end class
 
